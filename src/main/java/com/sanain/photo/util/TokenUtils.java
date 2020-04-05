@@ -2,6 +2,7 @@ package com.sanain.photo.util;
 
 import sun.misc.BASE64Encoder;
 
+import java.awt.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -12,9 +13,12 @@ import java.util.Random;
  */
 public class TokenUtils {
     private TokenUtils(){};
-    private static final TokenUtils instance = new TokenUtils();
+    private static TokenUtils instance = new TokenUtils();
 
     public static TokenUtils getInstance() {
+        if(instance == null){
+            instance = new TokenUtils();
+        }
         return instance;
     }
 

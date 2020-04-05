@@ -28,11 +28,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedMethods("PUT", "DELETE","GET","POST")
                 .allowedHeaders("*")
-                .exposedHeaders("access-control-allow-headers",
-                "access-control-allow-methods",
-                "access-control-allow-origin",
-                "access-control-max-age",
-                        "X-Frame-Options")
                 .allowCredentials(true);
     }
 
@@ -64,6 +59,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         list.add("/user/getLoginCode");
         list.add("/user/register");
         list.add("/user/getRegisterCode");
+        list.add("/email/sendRegisterCode");
+        list.add("/email/hasSameEmail");
 
 //        registry.addInterceptor(getFilterConfig()).addPathPatterns("/**");
         //excludePathPatterns 排查那些路径不被拦截

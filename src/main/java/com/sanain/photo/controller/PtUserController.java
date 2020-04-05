@@ -65,21 +65,11 @@ public class PtUserController {
             return ResponseUtils.packaging("01","用户名或者密码错误！",null);
         }
 
-        //获取令牌
-        TokenUtils instance = TokenUtils.getInstance();
-        String token = instance.makeToken(user.getUserId().toString());
-
-        try {
-            //把token放入redis
-            String userJson = new ObjectMapper().writeValueAsString(ptUser);
-            //令牌有效时间为一天
-            redisUtil.set(token,userJson,60*60*24);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        //获取token
+        String token = getToken(user);
 
         //把令牌放在cookie里面
-        Cookie cookie = new Cookie("toke",token);
+        Cookie cookie = new Cookie(ConstantUtil.COOKIE_TOKEN,token);
         response.addCookie(cookie);
         redisUtil.del(token);
         return ResponseUtils.packaging("00","登录成功！",null);
@@ -116,5 +106,64 @@ public class PtUserController {
         }
 
         return "";
+    }
+
+    /**
+     * 注册
+     * @param ptUser
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/register")
+    public Map<String,Object> register(PtUser ptUser,String code,HttpServletResponse response,HttpServletRequest request){
+        if(StringUtils.isEmpty(ptUser.getUserEmail())){
+            return ResponseUtils.packaging("01","邮箱不能为空！",null);
+        }
+
+        if(StringUtils.isEmpty(ptUser.getUserPassword())){
+            return ResponseUtils.packaging("01","密码不能为空！",null);
+        }
+
+        if(StringUtils.isEmpty(code)){
+            return ResponseUtils.packaging("01","验证码不能为空！",null);
+        }
+
+        String id = request.getSession().getId();
+        Object o = redisUtil.get(ConstantUtil.EMAIL_CODE + id);
+        if(o == null || !code.equals(o.toString())){
+            return ResponseUtils.packaging("01","验证码错误！",null);
+        }
+        //调用service层插入数据
+        PtUser user = ptUserService.insertUser(ptUser);
+
+        //获取token
+        String token = getToken(user);
+        //把toke放入cookie
+        Cookie cookie = new Cookie(ConstantUtil.COOKIE_TOKEN,token);
+        response.addCookie(cookie);
+
+        return ResponseUtils.packaging("00","注册成功！",null);
+    }
+
+
+    /**
+     * 获取token并放入redis
+     * @param ptUser
+     * @return
+     */
+    private String getToken(PtUser ptUser){//获取令牌
+        TokenUtils instance = TokenUtils.getInstance();
+        String token = instance.makeToken(ptUser.getUserId().toString());
+
+        try {
+            //把token放入redis
+            String userJson = new ObjectMapper().writeValueAsString(ptUser);
+            //令牌有效时间为一天
+            redisUtil.set(token,userJson,60*60*24);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return token;
     }
 }
