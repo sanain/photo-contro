@@ -1,12 +1,10 @@
 package com.sanain.photo.config;
 
+import com.sanain.photo.util.ConstantUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("PUT", "DELETE","GET","POST")
-                .allowedHeaders("*")
                 .allowCredentials(true);
     }
 
@@ -59,6 +56,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         list.add("/user/getLoginCode");
         list.add("/user/register");
         list.add("/user/getRegisterCode");
+//        list.add("/user/getUserInfo");
         list.add("/email/sendRegisterCode");
         list.add("/email/hasSameEmail");
 
@@ -67,5 +65,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(getLoginInterceptor()).excludePathPatterns(list);
 
 //        super.addInterceptors(registry);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/headPortrait/**").addResourceLocations( ConstantUtil.FILE_HEAD_PORTRAIT);
+        registry.addResourceHandler("/images/**",ConstantUtil.FILE_IMAGES);
     }
 }

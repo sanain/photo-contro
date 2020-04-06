@@ -9,15 +9,14 @@ import com.sanain.photo.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 用户controller
@@ -39,7 +38,7 @@ public class PtUserController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/login")
+    @RequestMapping("/login")
     public Map<String , Object> login( HttpServletRequest request, HttpServletResponse response ,PtUser ptUser, String code, String sessionId){
         sessionId = request.getSession().getId();
         Cookie[] cookies = request.getCookies();
@@ -65,13 +64,10 @@ public class PtUserController {
             return ResponseUtils.packaging("01","用户名或者密码错误！",null);
         }
 
-        //获取token
-        String token = getToken(user);
+        //生成cookie和放入redis、session
+        makeToke(user,request,response);
 
-        //把令牌放在cookie里面
-        Cookie cookie = new Cookie(ConstantUtil.COOKIE_TOKEN,token);
-        response.addCookie(cookie);
-        redisUtil.del(token);
+//        redisUtil.del(token);
         return ResponseUtils.packaging("00","登录成功！",null);
     }
 
@@ -88,7 +84,7 @@ public class PtUserController {
     public String getSysManageLoginCode(HttpServletResponse response,
                                         HttpServletRequest request) {
         String sessionId = request.getSession().getId();
-
+        Cookie[] cookies = request.getCookies();
         response.setContentType("image/jpeg");// 设置相应类型,告诉浏览器输出的内容为图片
         response.setHeader("Pragma", "No-cache");// 设置响应头信息，告诉浏览器不要缓存此内容
         response.setHeader("Cache-Control", "no-cache");
@@ -101,6 +97,7 @@ public class PtUserController {
             System.out.println("图片的session="+sessionId);
             //验证码放入缓存之中,并设置过期时间为五分钟
             redisUtil.set(ConstantUtil.LOGIN_CODE+sessionId,randCode.toUpperCase(),60*5);
+            System.out.println(randCode.toUpperCase());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,34 +133,68 @@ public class PtUserController {
         //调用service层插入数据
         PtUser user = ptUserService.insertUser(ptUser);
 
-        //获取token
-        String token = getToken(user);
-        //把toke放入cookie
-        Cookie cookie = new Cookie(ConstantUtil.COOKIE_TOKEN,token);
-        response.addCookie(cookie);
+        //获取token、并放入cookie、redis
+        makeToke(user,request,response);
 
         return ResponseUtils.packaging("00","注册成功！",null);
     }
 
 
     /**
-     * 获取token并放入redis
+     * 生成token并放入redis、cookie
      * @param ptUser
      * @return
      */
-    private String getToken(PtUser ptUser){//获取令牌
+
+    private String makeToke(PtUser ptUser,HttpServletRequest request , HttpServletResponse response){//获取令牌
         TokenUtils instance = TokenUtils.getInstance();
         String token = instance.makeToken(ptUser.getUserId().toString());
 
-        try {
-            //把token放入redis
-            String userJson = new ObjectMapper().writeValueAsString(ptUser);
-            //令牌有效时间为一天
-            redisUtil.set(token,userJson,60*60*24);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        //把token放入redis
+        String userJson = JsonUtils.toJson(ptUser);
+        //令牌有效时间为一天
+        redisUtil.set(token,userJson,60*60*24);
+
+        //把令牌放在cookie里面
+        Cookie cookie = new Cookie(ConstantUtil.COOKIE_TOKEN,token);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         return token;
+    }
+
+    /**
+     * 获取当前用户的信息
+     */
+    @ResponseBody
+    @RequestMapping("/getUserInfo")
+    public Map<String , Object> getUserInfo(HttpServletRequest request){
+        TokenUtils tokenUtils = TokenUtils.getInstance();
+        String token = tokenUtils.getToken(request);
+
+        Object o = redisUtil.get(token);
+
+        Map<String,Object> map = new HashMap<>();
+        if(o != null){
+            PtUser user = JsonUtils.toObject(o.toString(), PtUser.class);
+            map.put("isLogin",true);
+            map.put("userPath",ConstantUtil.PRO_PATH+ConstantUtil.PATH_HEAD_PORTRAIT+user.getPhotoPath());
+            map.put("userId", user.getUserId());
+        }else{
+            map.put("isLogin",false);
+        }
+
+        return ResponseUtils.packaging("00","查询成功",map);
+    }
+
+
+    @ResponseBody
+    @RequestMapping("testCookie")
+    public String testCookie(HttpServletResponse response){
+        int i = new Random().nextInt(10);
+        Cookie cookie = new Cookie("1",i+"");
+        response.addCookie(cookie);
+
+        return "";
     }
 }

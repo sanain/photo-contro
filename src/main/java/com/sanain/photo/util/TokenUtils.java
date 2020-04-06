@@ -2,6 +2,8 @@ package com.sanain.photo.util;
 
 import sun.misc.BASE64Encoder;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,5 +39,26 @@ public class TokenUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    /**
+     * 从请求中获取token
+     * @param request
+     * @return
+     */
+    public String getToken(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        if(cookies == null || cookies.length == 0){
+            return "";
+        }
+
+        for(Cookie cookie : cookies){
+            if(ConstantUtil.COOKIE_TOKEN.equals(cookie.getName())){
+                return cookie.getValue();
+            }
+        }
+
+        return "";
     }
 }
