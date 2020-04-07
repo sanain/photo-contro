@@ -59,6 +59,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        list.add("/user/getUserInfo");
         list.add("/email/sendRegisterCode");
         list.add("/email/hasSameEmail");
+        list.add("/upload/headPortraitUpload");
 
 //        registry.addInterceptor(getFilterConfig()).addPathPatterns("/**");
         //excludePathPatterns 排查那些路径不被拦截

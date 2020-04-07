@@ -70,7 +70,7 @@ public class PtUserService {
             return null;
         }
         ptUser.setIsUse(0);
-        ptUser.setPhotoPath("headPhoto/default.log");
+        ptUser.setPhotoPath("default.png");
         ptUser.setRole("0");
 
         ptUser.setCreateTime(new Date());
@@ -103,12 +103,19 @@ public class PtUserService {
             return ptUser;
         }
 
+        if(ptUser.getUserPhone() == null){
+            ptUser.setUserPhone("");
+        }
+        if(ptUser.getSignature() == null){
+            ptUser.setSignature("");
+        }
         //根据主键更新，并且不为空的属性才会更新到数据库中
         int i = ptUserMapper.updateByPrimaryKeySelective(ptUser);
         if(i == 0){
             return null;
         }
 
+        ptUser = ptUserMapper.selectByPrimaryKey(ptUser.getUserId());
         return ptUser;
     }
 

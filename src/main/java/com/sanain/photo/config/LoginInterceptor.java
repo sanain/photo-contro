@@ -2,6 +2,7 @@ package com.sanain.photo.config;
 
 import com.sanain.photo.util.ConstantUtil;
 import com.sanain.photo.util.RedisUtil;
+import com.sanain.photo.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -40,7 +41,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         for(Cookie cookie : cookies){
             if(cookie.getName().equals(ConstantUtil.COOKIE_TOKEN)){
                 token = cookie.getValue();
-                break;
+
+                Object o = redisUtil.get(token);
+                if(o != null){
+                    break;
+                }
             }
             count++;
         }

@@ -187,6 +187,64 @@ public class PtUserController {
         return ResponseUtils.packaging("00","查询成功",map);
     }
 
+    /**
+     * 获取当前用户所有的信息
+     */
+    @ResponseBody
+    @RequestMapping("/getUserAllInfo")
+    public Map<String , Object> getAllUserInfo(HttpServletRequest request){
+        TokenUtils tokenUtils = TokenUtils.getInstance();
+        String token = tokenUtils.getToken(request);
+
+        Object o = redisUtil.get(token);
+
+        PtUser user = JsonUtils.toObject(o.toString(), PtUser.class);
+        user.setUserPassword("");
+        user.setPhotoPath(ConstantUtil.PRO_PATH+ConstantUtil.PATH_HEAD_PORTRAIT+user.getPhotoPath());
+//            map.put("userId", user.getUserId());
+//            map.put("userName", user.getUserId());
+//            map.put("userPhone", user.getUserPhone());
+//            map.put("user", user.getUserId());
+        Map<String , Object> map = new HashMap<>();
+        map.put("userInfo",user);
+        return ResponseUtils.packaging("00","查询成功",map);
+    }
+
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateUser")
+    public Map<String , Object> updateUser(PtUser user ,HttpServletRequest request){
+        String token = TokenUtils.getInstance().getToken(request);
+        Map<String , Object> map = new HashMap<>();
+        Object o = redisUtil.get(token);
+        if(o == null){
+            return ResponseUtils.packaging("01","登录信息过期！",null);
+        }
+
+        PtUser ptUser = JsonUtils.toObject(o.toString(), PtUser.class);
+        //删除缓存
+        redisUtil.del(token);
+        user.setUserId(ptUser.getUserId());
+        ptUser = ptUserService.updateUser(user);
+        if(ptUser == null){
+            return ResponseUtils.packaging("01","更新用户信息错误！",null);
+        }
+        redisUtil.del(token);
+        //更新信息之后写入缓存
+        redisUtil.set(token,JsonUtils.toJson(ptUser),60*60*24);
+
+        map.put("userInfo",ptUser);
+        map.put("result",true);
+        return ResponseUtils.packaging("00","更新成功！",map);
+
+    }
+
 
     @ResponseBody
     @RequestMapping("testCookie")
