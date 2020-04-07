@@ -201,10 +201,6 @@ public class PtUserController {
         PtUser user = JsonUtils.toObject(o.toString(), PtUser.class);
         user.setUserPassword("");
         user.setPhotoPath(ConstantUtil.PRO_PATH+ConstantUtil.PATH_HEAD_PORTRAIT+user.getPhotoPath());
-//            map.put("userId", user.getUserId());
-//            map.put("userName", user.getUserId());
-//            map.put("userPhone", user.getUserPhone());
-//            map.put("user", user.getUserId());
         Map<String , Object> map = new HashMap<>();
         map.put("userInfo",user);
         return ResponseUtils.packaging("00","查询成功",map);

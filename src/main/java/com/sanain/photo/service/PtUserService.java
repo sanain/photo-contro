@@ -72,7 +72,9 @@ public class PtUserService {
         ptUser.setIsUse(0);
         ptUser.setPhotoPath("default.png");
         ptUser.setRole("0");
-
+        ptUser.setUserName(ptUser.getUserEmail());
+        ptUser.setSignature("");
+        ptUser.setUserPhone("");
         ptUser.setCreateTime(new Date());
         //用户的密码加密
         ptUser.setUserPassword(MD5Utils.stringToMD5(ptUser.getUserPassword()));
@@ -108,6 +110,9 @@ public class PtUserService {
         }
         if(ptUser.getSignature() == null){
             ptUser.setSignature("");
+        }
+        if(!StringUtils.isEmpty(ptUser.getUserPassword())){
+            ptUser.setUserPassword(MD5Utils.stringToMD5(ptUser.getUserPassword()));
         }
         //根据主键更新，并且不为空的属性才会更新到数据库中
         int i = ptUserMapper.updateByPrimaryKeySelective(ptUser);
