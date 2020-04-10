@@ -49,7 +49,7 @@ public class EmailController {
 
         String sessionId = request.getSession().getId();
         //把验证码放入redis
-        redisUtil.set(ConstantUtil.EMAIL_CODE+sessionId,code,10*60);
+        redisUtil.set(ConstantUtil.EMAIL_CODE+sessionId+email,code,10*60);
         return ResponseUtils.packaging("00","发送成功",null);
     }
 

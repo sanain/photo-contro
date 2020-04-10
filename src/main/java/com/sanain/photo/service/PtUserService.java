@@ -38,17 +38,14 @@ public class PtUserService {
         ptUser.setUserPassword(md5);
 
         PtUserExample example = new PtUserExample();
+        PtUserExample.Criteria criteria= example.createCriteria();
         //设置查询条件为 user_email 等于ptUser.getUserEmail()
         //也就用户名相等
-        PtUserExample.Criteria emailCriteria= example.createCriteria();
-        emailCriteria.andUserEmailEqualTo(ptUser.getUserEmail());
-        example.or(emailCriteria);
+        criteria.andUserEmailEqualTo(ptUser.getUserEmail());
 
         //设置查询条件为 user_password 等于md5
         //也就是密码相等
-        PtUserExample.Criteria passCriteria= example.createCriteria();
-        passCriteria.andUserPasswordEqualTo(md5);
-        example.or(emailCriteria);
+        criteria.andUserPasswordEqualTo(md5);
 
         //进行查询
         List<PtUser> userList = ptUserMapper.selectByExample(example);
@@ -88,7 +85,6 @@ public class PtUserService {
         PtUserExample example = new PtUserExample();
         PtUserExample.Criteria criteria = example.createCriteria();
         criteria.andUserEmailEqualTo(ptUser.getUserEmail());
-        example.or(criteria);
 
         List<PtUser> ptUsers = ptUserMapper.selectByExample(example);
 
@@ -152,7 +148,6 @@ public class PtUserService {
         PtUserExample.Criteria criteria = example.createCriteria();
         //查询条件为 user_email = email
         criteria.andUserEmailEqualTo(email);
-        example.or(criteria);
 
         List<PtUser> ptUsers = ptUserMapper.selectByExample(example);
         if(CollectionUtils.isEmpty(ptUsers)){

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanain.photo.mapper.PtDirMapper">
+  <resultMap id="BaseResultMap" type="com.sanain.photo.pojo.PtDir">
+    <id column="dir_id" jdbcType="INTEGER" property="dirId" />
+    <result column="dir_name" jdbcType="VARCHAR" property="dirName" />
+    <result column="dir_user_id" jdbcType="INTEGER" property="dirUserId" />
+    <result column="dir_type_id" jdbcType="INTEGER" property="dirTypeId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="dir_img" jdbcType="VARCHAR" property="dirImg" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    dir_id, dir_name, dir_user_id, dir_type_id, create_time, dir_img, remark
+  </sql>
+  <select id="selectByExample" parameterType="com.sanain.photo.pojo.PtDirExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pt_dir
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pt_dir
+    where dir_id = #{dirId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pt_dir
+    where dir_id = #{dirId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanain.photo.pojo.PtDirExample">
+    delete from pt_dir
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanain.photo.pojo.PtDir">
+    insert into pt_dir (dir_id, dir_name, dir_user_id, 
+      dir_type_id, create_time, dir_img, 
+      remark)
+    values (#{dirId,jdbcType=INTEGER}, #{dirName,jdbcType=VARCHAR}, #{dirUserId,jdbcType=INTEGER}, 
+      #{dirTypeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{dirImg,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sanain.photo.pojo.PtDir">
+    insert into pt_dir
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dirId != null">
+        dir_id,
+      </if>
+      <if test="dirName != null">
+        dir_name,
+      </if>
+      <if test="dirUserId != null">
+        dir_user_id,
+      </if>
+      <if test="dirTypeId != null">
+        dir_type_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="dirImg != null">
+        dir_img,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dirId != null">
+        #{dirId,jdbcType=INTEGER},
+      </if>
+      <if test="dirName != null">
+        #{dirName,jdbcType=VARCHAR},
+      </if>
+      <if test="dirUserId != null">
+        #{dirUserId,jdbcType=INTEGER},
+      </if>
+      <if test="dirTypeId != null">
+        #{dirTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dirImg != null">
+        #{dirImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanain.photo.pojo.PtDirExample" resultType="java.lang.Long">
+    select count(*) from pt_dir
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pt_dir
+    <set>
+      <if test="record.dirId != null">
+        dir_id = #{record.dirId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dirName != null">
+        dir_name = #{record.dirName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dirUserId != null">
+        dir_user_id = #{record.dirUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dirTypeId != null">
+        dir_type_id = #{record.dirTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dirImg != null">
+        dir_img = #{record.dirImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pt_dir
+    set dir_id = #{record.dirId,jdbcType=INTEGER},
+      dir_name = #{record.dirName,jdbcType=VARCHAR},
+      dir_user_id = #{record.dirUserId,jdbcType=INTEGER},
+      dir_type_id = #{record.dirTypeId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      dir_img = #{record.dirImg,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanain.photo.pojo.PtDir">
+    update pt_dir
+    <set>
+      <if test="dirName != null">
+        dir_name = #{dirName,jdbcType=VARCHAR},
+      </if>
+      <if test="dirUserId != null">
+        dir_user_id = #{dirUserId,jdbcType=INTEGER},
+      </if>
+      <if test="dirTypeId != null">
+        dir_type_id = #{dirTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dirImg != null">
+        dir_img = #{dirImg,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dir_id = #{dirId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanain.photo.pojo.PtDir">
+    update pt_dir
+    set dir_name = #{dirName,jdbcType=VARCHAR},
+      dir_user_id = #{dirUserId,jdbcType=INTEGER},
+      dir_type_id = #{dirTypeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      dir_img = #{dirImg,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where dir_id = #{dirId,jdbcType=INTEGER}
+  </update>
+</mapper>

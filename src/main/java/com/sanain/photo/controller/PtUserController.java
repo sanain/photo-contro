@@ -126,7 +126,7 @@ public class PtUserController {
         }
 
         String id = request.getSession().getId();
-        Object o = redisUtil.get(ConstantUtil.EMAIL_CODE + id);
+        Object o = redisUtil.get(ConstantUtil.EMAIL_CODE + id+ptUser.getUserEmail());
         if(o == null || !code.equals(o.toString())){
             return ResponseUtils.packaging("01","验证码错误！",null);
         }

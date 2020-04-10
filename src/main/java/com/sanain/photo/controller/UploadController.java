@@ -37,7 +37,7 @@ public class UploadController {
     public Map<String,Object> headPortraitUpload(MultipartFile file ,String token, HttpServletRequest request){
         Map<String , Object> map = new HashMap<>();
 
-        String filePath = UploadUtils.saveOneFile(file, ConstantUtil.HEAD_PORTRAIT);
+        String filePath = FileUtils.saveOneFile(file, ConstantUtil.HEAD_PORTRAIT);
 
         if(StringUtils.isEmpty(file)){
             return ResponseUtils.packaging("01","保存文件错误！",null);
