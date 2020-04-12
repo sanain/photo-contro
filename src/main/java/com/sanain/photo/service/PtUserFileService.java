@@ -1,13 +1,11 @@
 package com.sanain.photo.service;
 
 import com.sanain.photo.mapper.PtUserFileMapper;
-import com.sanain.photo.pojo.PtDir;
-import com.sanain.photo.pojo.PtUser;
-import com.sanain.photo.pojo.PtUserFile;
-import com.sanain.photo.pojo.PtUserFileExample;
+import com.sanain.photo.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +13,7 @@ import java.util.List;
 
 
 /**
- * 用户上传文件的service
+ * 用户上传的文件service
  * @Author sanain
  */
 @Service
@@ -24,27 +22,29 @@ public class PtUserFileService {
     private PtUserFileMapper ptUserFileMapper;
 
     /**
-     * 批量插入
+     * 插入
      * @param
      * @return
      */
     @Transactional
-    public boolean insertBatch(List<String> fileNames, PtDir ptDir, PtUser ptUser){
-        List<PtUserFile> list = new ArrayList<>();
+    public PtUserFile insert(String fileName, PtDir ptDir, PtUser ptUser){
 
-        for(String str : fileNames){
-            PtUserFile ptUserFile = new PtUserFile();
-            ptUserFile.setCreateTime(new Date());
-            ptUserFile.setDirId(ptDir.getDirId());
-            ptUserFile.setFilePath(ptUser.getUserId()+"/"+ptDir.getDirId()+"/");
-            ptUserFile.setFileName(str);
+        PtUserFile ptUserFile = new PtUserFile();
+        ptUserFile.setCreateTime(new Date());
+        ptUserFile.setDirId(ptDir.getDirId());
+        ptUserFile.setFilePath(ptUser.getUserId()+"/"+ptDir.getDirId()+"/");
+        ptUserFile.setFileName(fileName);
 
-            list.add(ptUserFile);
-        }
+        //插入数据库
+        ptUserFileMapper.insert(ptUserFile);
 
-        int i = ptUserFileMapper.insertBatch(list);
+        //查询出刚才插入的图片
+        PtUserFileExample example = new PtUserFileExample();
+        PtUserFileExample.Criteria criteria = example.createCriteria();
+        criteria.andFileNameEqualTo(ptUserFile.getFileName());
+        List<PtUserFile> ptUserFiles = ptUserFileMapper.selectByExample(example);
 
-        return i == 0 ? false:true;
+        return returnFrist(ptUserFiles);
     }
 
     /**
@@ -55,6 +55,17 @@ public class PtUserFileService {
     @Transactional
     public boolean deleteBatch(List<Integer> list){
         int i = ptUserFileMapper.deleteBatch(list);
+        return i == 0 ? false:true;
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @Transactional
+    public boolean deleteById(Integer id){
+        int i = ptUserFileMapper.deleteByPrimaryKey(id);
         return i == 0 ? false:true;
     }
 
@@ -85,9 +96,35 @@ public class PtUserFileService {
      */
     public List<PtUserFile> selectAllByDirId(Integer dirId){
         PtUserFileExample example = new PtUserFileExample();
+        example.setOrderByClause("dir_id");
         PtUserFileExample.Criteria criteria = example.createCriteria();
         criteria.andDirIdEqualTo(dirId);
         return ptUserFileMapper.selectByExample(example);
+    }
+
+    /**
+     * 根据id查询
+     * @param
+     * @return
+     */
+    public PtUserFile selectByUserFileId(Integer userFileId){
+        if(userFileId == null){
+            return null;
+        }
+        return ptUserFileMapper.selectByPrimaryKey(userFileId);
+    }
+
+    /**
+     * 当列表不为空，返回第一个元素，为空返回null
+     * @param
+     * @return
+     */
+    private PtUserFile returnFrist(List<PtUserFile> list){
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+
+        return list.get(0);
     }
 
 }

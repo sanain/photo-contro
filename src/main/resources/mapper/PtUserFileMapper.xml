@@ -211,7 +211,7 @@
 
   <!--批量插入-->
   <insert id="insertBatch">
-    insert into pt_user_file(file_name,filePath,create_time,dir_id)
+    insert into pt_user_file(file_name,file_path,create_time,dir_id)
     values
     <foreach collection="list" item="file" separator=",">
       (#{file.fileName},#{file.filePath},#{file.createTime},#{file.dirId})

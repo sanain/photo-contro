@@ -149,15 +149,15 @@ public class PtDirController {
      */
     @ResponseBody
     @RequestMapping("/downloadDir")
-    public Map<String , Object> downloadDir(Integer dirId , HttpServletResponse response){
+    public void downloadDir(Integer dirId , HttpServletResponse response){
         if(dirId == null){
-            return ResponseUtils.packaging("01","相册id不能为空",null);
+//            return ResponseUtils.packaging("01","相册id不能为空",null);
         }
 
         PtDir ptDir = ptDirService.selectById(dirId);
         List<PtUserFile> ptUserFiles = ptUserFileService.selectAllByDirId(dirId);
         if(CollectionUtils.isEmpty(ptUserFiles)){
-            return ResponseUtils.packaging("00","相册中没有图片",null);
+//            return ResponseUtils.packaging("00","相册中没有图片",null);
         }
 
         //取出所有图片的路径
@@ -165,7 +165,8 @@ public class PtDirController {
         for(PtUserFile file : ptUserFiles){
             list.add(ConstantUtil.IMAGES+file.getFilePath()+file.getFileName());
         }
-        FileUtils.downloadZipFiles(response,list,ptDir.getDirName());
-        return ResponseUtils.packaging("00","下载成功",null);
+        FileUtils.downloadZipFiles(response,list,ptDir.getDirName()+".zip");
+//        return ResponseUtils.packaging("00","下载成功",null);
+        System.out.println("aaaa");
     }
 }
