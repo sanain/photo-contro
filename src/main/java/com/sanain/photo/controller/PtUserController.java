@@ -242,6 +242,22 @@ public class PtUserController {
     }
 
 
+    /**
+     * 退出登录
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/loginOut")
+    public Map<String,Object> loginOut(HttpServletRequest request){
+        String token = TokenUtils.getInstance().getToken(request);
+        redisUtil.del(token);
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("result",true);
+
+        return ResponseUtils.packaging("00","退出登录成功!",map);
+    }
     @ResponseBody
     @RequestMapping("testCookie")
     public String testCookie(HttpServletResponse response){
