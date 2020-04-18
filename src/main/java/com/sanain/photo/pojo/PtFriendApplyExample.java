@@ -534,6 +534,146 @@ public class PtFriendApplyExample {
             addCriterion("result not between", value1, value2, "result");
             return (Criteria) this;
         }
+
+        public Criteria andFromPhotoIsNull() {
+            addCriterion("from_photo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoIsNotNull() {
+            addCriterion("from_photo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoEqualTo(String value) {
+            addCriterion("from_photo =", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoNotEqualTo(String value) {
+            addCriterion("from_photo <>", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoGreaterThan(String value) {
+            addCriterion("from_photo >", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoGreaterThanOrEqualTo(String value) {
+            addCriterion("from_photo >=", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoLessThan(String value) {
+            addCriterion("from_photo <", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoLessThanOrEqualTo(String value) {
+            addCriterion("from_photo <=", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoLike(String value) {
+            addCriterion("from_photo like", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoNotLike(String value) {
+            addCriterion("from_photo not like", value, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoIn(List<String> values) {
+            addCriterion("from_photo in", values, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoNotIn(List<String> values) {
+            addCriterion("from_photo not in", values, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoBetween(String value1, String value2) {
+            addCriterion("from_photo between", value1, value2, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromPhotoNotBetween(String value1, String value2) {
+            addCriterion("from_photo not between", value1, value2, "fromPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameIsNull() {
+            addCriterion("from_user_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameIsNotNull() {
+            addCriterion("from_user_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameEqualTo(String value) {
+            addCriterion("from_user_name =", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameNotEqualTo(String value) {
+            addCriterion("from_user_name <>", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameGreaterThan(String value) {
+            addCriterion("from_user_name >", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameGreaterThanOrEqualTo(String value) {
+            addCriterion("from_user_name >=", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameLessThan(String value) {
+            addCriterion("from_user_name <", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameLessThanOrEqualTo(String value) {
+            addCriterion("from_user_name <=", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameLike(String value) {
+            addCriterion("from_user_name like", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameNotLike(String value) {
+            addCriterion("from_user_name not like", value, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameIn(List<String> values) {
+            addCriterion("from_user_name in", values, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameNotIn(List<String> values) {
+            addCriterion("from_user_name not in", values, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameBetween(String value1, String value2) {
+            addCriterion("from_user_name between", value1, value2, "fromUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromUserNameNotBetween(String value1, String value2) {
+            addCriterion("from_user_name not between", value1, value2, "fromUserName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

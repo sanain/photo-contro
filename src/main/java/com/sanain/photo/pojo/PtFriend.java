@@ -23,4 +23,7 @@ public class PtFriend {
     private Date createTime;
     /*昵称的备注*/
     private String remark;
+    /*好友头像*/
+    private String friendPhoto;
+
 }

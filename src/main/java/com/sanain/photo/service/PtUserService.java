@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -135,6 +136,17 @@ public class PtUserService {
     }
 
     /**
+     * 根据id查询
+     */
+    public PtUser selectById(Integer userId){
+        if(StringUtils.isEmpty(userId)){
+            return null;
+        }
+
+        return ptUserMapper.selectByPrimaryKey(userId);
+    }
+
+    /**
      * 是否已经存在相同邮箱
      * @param email
      * @return  false 不存在 true已经存在
@@ -155,6 +167,32 @@ public class PtUserService {
         }
 
         return true;
+    }
+
+
+    /**
+     * 根据邮箱查询
+     * @param email
+     * @return  false 不存在 true已经存在
+     */
+    public List<PtUser> selectByEmail(String email){
+        if(StringUtils.isEmpty(email)){
+            return new ArrayList<>();
+        }
+
+        PtUserExample example = new PtUserExample();
+        PtUserExample.Criteria criteria = example.createCriteria();
+        //查询条件为 user_email = email
+        criteria.andUserEmailEqualTo(email);
+
+        List<PtUser> ptUsers = ptUserMapper.selectByExample(example);
+        if(!CollectionUtils.isEmpty(ptUsers)){
+            for(PtUser ptUser:ptUsers){
+                ptUser.setUserPassword("");
+            }
+        }
+
+        return ptUsers;
     }
 
 

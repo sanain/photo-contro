@@ -50,9 +50,9 @@
         <!--<table schema="" tableName="pt_dir_type"></table>-->
         <!--<table schema="" tableName="pt_dir"></table>-->
         <!--<table schema="" tableName="pt_user_file"></table>-->
-        <table schema="" tableName="pt_friend"></table>
+        <!--<table schema="" tableName="pt_friend"></table>-->
         <table schema="" tableName="pt_friend_apply"></table>
-        <table schema="" tableName="pt_unread_message"></table>
+        <!--<table schema="" tableName="pt_unread_message"></table>-->
 
     </context>
 </generatorConfiguration>

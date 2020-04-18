@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 好友关系表
+ * 好友的mapper
  */
 @Mapper
 public interface PtFriendMapper {

@@ -414,6 +414,76 @@ public class PtFriendExample {
             addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
+
+        public Criteria andFriendPhotoIsNull() {
+            addCriterion("friend_photo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoIsNotNull() {
+            addCriterion("friend_photo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoEqualTo(String value) {
+            addCriterion("friend_photo =", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoNotEqualTo(String value) {
+            addCriterion("friend_photo <>", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoGreaterThan(String value) {
+            addCriterion("friend_photo >", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoGreaterThanOrEqualTo(String value) {
+            addCriterion("friend_photo >=", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoLessThan(String value) {
+            addCriterion("friend_photo <", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoLessThanOrEqualTo(String value) {
+            addCriterion("friend_photo <=", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoLike(String value) {
+            addCriterion("friend_photo like", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoNotLike(String value) {
+            addCriterion("friend_photo not like", value, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoIn(List<String> values) {
+            addCriterion("friend_photo in", values, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoNotIn(List<String> values) {
+            addCriterion("friend_photo not in", values, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoBetween(String value1, String value2) {
+            addCriterion("friend_photo between", value1, value2, "friendPhoto");
+            return (Criteria) this;
+        }
+
+        public Criteria andFriendPhotoNotBetween(String value1, String value2) {
+            addCriterion("friend_photo not between", value1, value2, "friendPhoto");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

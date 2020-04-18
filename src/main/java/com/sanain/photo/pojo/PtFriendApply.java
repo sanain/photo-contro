@@ -1,28 +1,95 @@
 package com.sanain.photo.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class PtFriendApply {
-    /*申请id*/
     private Integer id;
-    /*申请者id*/
+
     private Integer fromId;
-    /*添加的好友的id*/
+
     private Integer toId;
-    /*申请备注*/
+
     private String remark;
-    /*创建时间*/
+
     private Date createDate;
-    /*是否已经处理申请的标志  0 未处理  1已处理*/
+
     private Integer isDeal;
-    /*处理结果 0 已拒绝  1已同意*/
+
     private Integer result;
 
+    private String fromPhoto;
+
+    private String fromUserName;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getFromId() {
+        return fromId;
+    }
+
+    public void setFromId(Integer fromId) {
+        this.fromId = fromId;
+    }
+
+    public Integer getToId() {
+        return toId;
+    }
+
+    public void setToId(Integer toId) {
+        this.toId = toId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getIsDeal() {
+        return isDeal;
+    }
+
+    public void setIsDeal(Integer isDeal) {
+        this.isDeal = isDeal;
+    }
+
+    public Integer getResult() {
+        return result;
+    }
+
+    public void setResult(Integer result) {
+        this.result = result;
+    }
+
+    public String getFromPhoto() {
+        return fromPhoto;
+    }
+
+    public void setFromPhoto(String fromPhoto) {
+        this.fromPhoto = fromPhoto == null ? null : fromPhoto.trim();
+    }
+
+    public String getFromUserName() {
+        return fromUserName;
+    }
+
+    public void setFromUserName(String fromUserName) {
+        this.fromUserName = fromUserName == null ? null : fromUserName.trim();
+    }
 }

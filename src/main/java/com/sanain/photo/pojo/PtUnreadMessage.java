@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 未读消息
+ * 未读消息的pojo
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class PtUnreadMessage {
     /*消息id*/
     private Integer id;
@@ -23,4 +23,7 @@ public class PtUnreadMessage {
     private String message;
     /*创建时间*/
     private Date createDate;
+    /*用户端的indexdb数据库的id*/
+    private String indexDbId;
+
 }

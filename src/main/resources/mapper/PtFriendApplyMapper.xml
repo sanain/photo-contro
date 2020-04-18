@@ -9,6 +9,8 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="is_deal" jdbcType="INTEGER" property="isDeal" />
     <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="from_photo" jdbcType="VARCHAR" property="fromPhoto" />
+    <result column="from_user_name" jdbcType="VARCHAR" property="fromUserName" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, from_id, to_id, remark, create_date, is_deal, result
+    id, from_id, to_id, remark, create_date, is_deal, result, from_photo, from_user_name
   </sql>
   <select id="selectByExample" parameterType="com.sanain.photo.pojo.PtFriendApplyExample" resultMap="BaseResultMap">
     select
@@ -104,10 +106,12 @@
   <insert id="insert" parameterType="com.sanain.photo.pojo.PtFriendApply">
     insert into pt_friend_apply (id, from_id, to_id, 
       remark, create_date, is_deal, 
-      result)
+      result, from_photo, from_user_name
+      )
     values (#{id,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{isDeal,jdbcType=INTEGER}, 
-      #{result,jdbcType=INTEGER})
+      #{result,jdbcType=INTEGER}, #{fromPhoto,jdbcType=VARCHAR}, #{fromUserName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sanain.photo.pojo.PtFriendApply">
     insert into pt_friend_apply
@@ -133,6 +137,12 @@
       <if test="result != null">
         result,
       </if>
+      <if test="fromPhoto != null">
+        from_photo,
+      </if>
+      <if test="fromUserName != null">
+        from_user_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,6 +165,12 @@
       </if>
       <if test="result != null">
         #{result,jdbcType=INTEGER},
+      </if>
+      <if test="fromPhoto != null">
+        #{fromPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserName != null">
+        #{fromUserName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +204,12 @@
       <if test="record.result != null">
         result = #{record.result,jdbcType=INTEGER},
       </if>
+      <if test="record.fromPhoto != null">
+        from_photo = #{record.fromPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUserName != null">
+        from_user_name = #{record.fromUserName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +223,9 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       is_deal = #{record.isDeal,jdbcType=INTEGER},
-      result = #{record.result,jdbcType=INTEGER}
+      result = #{record.result,jdbcType=INTEGER},
+      from_photo = #{record.fromPhoto,jdbcType=VARCHAR},
+      from_user_name = #{record.fromUserName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +251,12 @@
       <if test="result != null">
         result = #{result,jdbcType=INTEGER},
       </if>
+      <if test="fromPhoto != null">
+        from_photo = #{fromPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserName != null">
+        from_user_name = #{fromUserName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -237,7 +267,9 @@
       remark = #{remark,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       is_deal = #{isDeal,jdbcType=INTEGER},
-      result = #{result,jdbcType=INTEGER}
+      result = #{result,jdbcType=INTEGER},
+      from_photo = #{fromPhoto,jdbcType=VARCHAR},
+      from_user_name = #{fromUserName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

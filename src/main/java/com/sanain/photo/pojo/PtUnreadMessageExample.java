@@ -414,6 +414,76 @@ public class PtUnreadMessageExample {
             addCriterion("create_date not between", value1, value2, "createDate");
             return (Criteria) this;
         }
+
+        public Criteria andIndexDbIdIsNull() {
+            addCriterion("index_db_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdIsNotNull() {
+            addCriterion("index_db_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdEqualTo(String value) {
+            addCriterion("index_db_id =", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdNotEqualTo(String value) {
+            addCriterion("index_db_id <>", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdGreaterThan(String value) {
+            addCriterion("index_db_id >", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdGreaterThanOrEqualTo(String value) {
+            addCriterion("index_db_id >=", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdLessThan(String value) {
+            addCriterion("index_db_id <", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdLessThanOrEqualTo(String value) {
+            addCriterion("index_db_id <=", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdLike(String value) {
+            addCriterion("index_db_id like", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdNotLike(String value) {
+            addCriterion("index_db_id not like", value, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdIn(List<String> values) {
+            addCriterion("index_db_id in", values, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdNotIn(List<String> values) {
+            addCriterion("index_db_id not in", values, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdBetween(String value1, String value2) {
+            addCriterion("index_db_id between", value1, value2, "indexDbId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIndexDbIdNotBetween(String value1, String value2) {
+            addCriterion("index_db_id not between", value1, value2, "indexDbId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

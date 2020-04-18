@@ -7,6 +7,7 @@
     <result column="to_id" jdbcType="INTEGER" property="toId" />
     <result column="message" jdbcType="VARCHAR" property="message" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="index_db_id" jdbcType="VARCHAR" property="indexDbId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, from_id, to_id, message, create_date
+    id, from_id, to_id, message, create_date, index_db_id
   </sql>
   <select id="selectByExample" parameterType="com.sanain.photo.pojo.PtUnreadMessageExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.sanain.photo.pojo.PtUnreadMessage">
     insert into pt_unread_message (id, from_id, to_id, 
-      message, create_date)
+      message, create_date, index_db_id
+      )
     values (#{id,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, 
-      #{message,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+      #{message,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{indexDbId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sanain.photo.pojo.PtUnreadMessage">
     insert into pt_unread_message
@@ -123,6 +126,9 @@
       <if test="createDate != null">
         create_date,
       </if>
+      <if test="indexDbId != null">
+        index_db_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +145,9 @@
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indexDbId != null">
+        #{indexDbId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.indexDbId != null">
+        index_db_id = #{record.indexDbId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       from_id = #{record.fromId,jdbcType=INTEGER},
       to_id = #{record.toId,jdbcType=INTEGER},
       message = #{record.message,jdbcType=VARCHAR},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      index_db_id = #{record.indexDbId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="indexDbId != null">
+        index_db_id = #{indexDbId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +221,8 @@
     set from_id = #{fromId,jdbcType=INTEGER},
       to_id = #{toId,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP}
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      index_db_id = #{indexDbId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

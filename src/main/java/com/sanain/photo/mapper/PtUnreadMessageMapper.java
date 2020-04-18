@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 未读消息mapper
+ * 未读消息的mapper
  */
 @Mapper
 public interface PtUnreadMessageMapper {

@@ -7,6 +7,7 @@
     <result column="friend_id" jdbcType="INTEGER" property="friendId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="friend_photo" jdbcType="VARCHAR" property="friendPhoto" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, self_id, friend_id, create_time, remark
+    id, self_id, friend_id, create_time, remark, friend_photo
   </sql>
   <select id="selectByExample" parameterType="com.sanain.photo.pojo.PtFriendExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="com.sanain.photo.pojo.PtFriend">
     insert into pt_friend (id, self_id, friend_id, 
-      create_time, remark)
+      create_time, remark, friend_photo
+      )
     values (#{id,jdbcType=INTEGER}, #{selfId,jdbcType=INTEGER}, #{friendId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{friendPhoto,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sanain.photo.pojo.PtFriend">
     insert into pt_friend
@@ -123,6 +126,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="friendPhoto != null">
+        friend_photo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +145,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="friendPhoto != null">
+        #{friendPhoto,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.friendPhoto != null">
+        friend_photo = #{record.friendPhoto,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       self_id = #{record.selfId,jdbcType=INTEGER},
       friend_id = #{record.friendId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      friend_photo = #{record.friendPhoto,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="friendPhoto != null">
+        friend_photo = #{friendPhoto,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -205,7 +221,8 @@
     set self_id = #{selfId,jdbcType=INTEGER},
       friend_id = #{friendId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      friend_photo = #{friendPhoto,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
