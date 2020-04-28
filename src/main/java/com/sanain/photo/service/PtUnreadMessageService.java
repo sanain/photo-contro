@@ -39,15 +39,13 @@ public class PtUnreadMessageService  {
 
 
     /**
-     * 根据发送方id和接收方id删除
-     * @param fromId
+     * 根据接收方id删除
      * @param toId
      */
     @Transactional
-    public void deleteByFromIdAndToId(Integer fromId , Integer toId){
+    public void deleteByToId( Integer toId){
         PtUnreadMessageExample example = new PtUnreadMessageExample();
         PtUnreadMessageExample.Criteria criteria = example.createCriteria();
-        criteria.andFromIdEqualTo(fromId);
         criteria.andToIdEqualTo(toId);
 
         mapper.deleteByExample(example);
@@ -60,7 +58,7 @@ public class PtUnreadMessageService  {
      */
     @Transactional
     public void insertUnreadMessage(PtUnreadMessage message){
-        message.setCreateDate(new Date());
+//        message.setCreateTime(new Date());
 
         mapper.insert(message);
     }

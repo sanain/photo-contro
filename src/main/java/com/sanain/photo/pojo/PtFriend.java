@@ -26,4 +26,8 @@ public class PtFriend {
     /*好友头像*/
     private String friendPhoto;
 
+    /*好友名字，不写入数据库*/
+    private String friendName;
+    /*好友个性签名，不写入数据库*/
+    private String signature;
 }

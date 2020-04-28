@@ -39,4 +39,6 @@ public class ConstantUtil {
     public static final String ALL_DIR_TYPE="all_dir_type";
     /*文件夹默认图片*/
     public static final String DEFAULT_IMG="default.png";
+    /*所有在线用户存储在redis中的key*/
+    public static final String ALL_INLINE_USER = "allInLineUser";
 }

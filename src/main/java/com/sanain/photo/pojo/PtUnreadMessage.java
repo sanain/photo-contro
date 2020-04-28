@@ -1,29 +1,27 @@
 package com.sanain.photo.pojo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-/**
- * 未读消息的pojo
- */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PtUnreadMessage {
-    /*消息id*/
     private Integer id;
-    /*发送者id*/
+
     private Integer fromId;
-    /*接受者id*/
+
     private Integer toId;
-    /*消息内容*/
+
     private String message;
-    /*创建时间*/
-    private Date createDate;
-    /*用户端的indexdb数据库的id*/
-    private String indexDbId;
+
+    private Date createTime;
+
+    private Integer userId;
+
+    private String fromPhoto;
+
+    private String fromRemark;
+
+    private Integer isRead;
 
 }

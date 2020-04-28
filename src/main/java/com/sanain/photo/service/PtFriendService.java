@@ -80,6 +80,21 @@ public class PtFriendService {
      * @param userId
      * @return
      */
+    public PtFriend getAllBySelfIdAndFriendId(Integer userId,Integer friendId){
+        PtFriendExample example = new PtFriendExample();
+        PtFriendExample.Criteria criteria = example.createCriteria();
+        criteria.andSelfIdEqualTo(userId);
+        criteria.andFriendIdEqualTo(friendId);
+
+        return returnFrist(mapper.selectByExample(example));
+    }
+
+
+    /**
+     * 根据用户id获取所有的好友列表
+     * @param userId
+     * @return
+     */
     public List<PtFriend> getAllBySelfId(Integer userId){
         PtFriendExample example = new PtFriendExample();
         example.setOrderByClause("remark");
@@ -89,15 +104,14 @@ public class PtFriendService {
         return mapper.selectByExample(example);
     }
 
-
     /**
      * 根据关系id获取好友消息
-     * @param friendId
+     * @param id
      * @return
      */
-    public PtUser getFriendInfoById(Integer friendId){
+    public PtUser getFriendInfoById(Integer id){
         //获取好友关系
-        PtFriend ptFriend = mapper.selectByPrimaryKey(friendId);
+        PtFriend ptFriend = mapper.selectByPrimaryKey(id);
 
         //根据好友关系中的好友id从ptuser表中查询相对应的用户信息
         return ptUserService.selectById(ptFriend.getFriendId());
@@ -124,5 +138,18 @@ public class PtFriendService {
         example.or(criteria2);
 
         mapper.deleteByExample(example);
+    }
+
+    /**
+     * 返回第一条记录
+     * @param list
+     * @return
+     */
+    private PtFriend returnFrist(List<PtFriend> list){
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+
+        return list.get(0);
     }
 }

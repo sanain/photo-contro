@@ -6,8 +6,11 @@
     <result column="from_id" jdbcType="INTEGER" property="fromId" />
     <result column="to_id" jdbcType="INTEGER" property="toId" />
     <result column="message" jdbcType="VARCHAR" property="message" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="index_db_id" jdbcType="VARCHAR" property="indexDbId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="from_photo" jdbcType="VARCHAR" property="fromPhoto" />
+    <result column="from_remark" jdbcType="VARCHAR" property="fromRemark" />
+    <result column="is_read" jdbcType="INTEGER" property="isRead" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, from_id, to_id, message, create_date, index_db_id
+    id, from_id, to_id, message, create_time, user_id, from_photo, from_remark, is_read
   </sql>
   <select id="selectByExample" parameterType="com.sanain.photo.pojo.PtUnreadMessageExample" resultMap="BaseResultMap">
     select
@@ -102,10 +105,12 @@
   </delete>
   <insert id="insert" parameterType="com.sanain.photo.pojo.PtUnreadMessage">
     insert into pt_unread_message (id, from_id, to_id, 
-      message, create_date, index_db_id
+      message, create_time, user_id, 
+      from_photo, from_remark, is_read
       )
     values (#{id,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, 
-      #{message,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{indexDbId,jdbcType=VARCHAR}
+      #{message,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, 
+      #{fromPhoto,jdbcType=VARCHAR}, #{fromRemark,jdbcType=VARCHAR}, #{isRead,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sanain.photo.pojo.PtUnreadMessage">
@@ -123,11 +128,20 @@
       <if test="message != null">
         message,
       </if>
-      <if test="createDate != null">
-        create_date,
+      <if test="createTime != null">
+        create_time,
       </if>
-      <if test="indexDbId != null">
-        index_db_id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="fromPhoto != null">
+        from_photo,
+      </if>
+      <if test="fromRemark != null">
+        from_remark,
+      </if>
+      <if test="isRead != null">
+        is_read,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -143,11 +157,20 @@
       <if test="message != null">
         #{message,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="indexDbId != null">
-        #{indexDbId,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fromPhoto != null">
+        #{fromPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fromRemark != null">
+        #{fromRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -172,11 +195,20 @@
       <if test="record.message != null">
         message = #{record.message,jdbcType=VARCHAR},
       </if>
-      <if test="record.createDate != null">
-        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.indexDbId != null">
-        index_db_id = #{record.indexDbId,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromPhoto != null">
+        from_photo = #{record.fromPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromRemark != null">
+        from_remark = #{record.fromRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRead != null">
+        is_read = #{record.isRead,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -189,8 +221,11 @@
       from_id = #{record.fromId,jdbcType=INTEGER},
       to_id = #{record.toId,jdbcType=INTEGER},
       message = #{record.message,jdbcType=VARCHAR},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      index_db_id = #{record.indexDbId,jdbcType=VARCHAR}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      from_photo = #{record.fromPhoto,jdbcType=VARCHAR},
+      from_remark = #{record.fromRemark,jdbcType=VARCHAR},
+      is_read = #{record.isRead,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -207,11 +242,20 @@
       <if test="message != null">
         message = #{message,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="indexDbId != null">
-        index_db_id = #{indexDbId,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fromPhoto != null">
+        from_photo = #{fromPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="fromRemark != null">
+        from_remark = #{fromRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null">
+        is_read = #{isRead,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -221,8 +265,11 @@
     set from_id = #{fromId,jdbcType=INTEGER},
       to_id = #{toId,jdbcType=INTEGER},
       message = #{message,jdbcType=VARCHAR},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      index_db_id = #{indexDbId,jdbcType=VARCHAR}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      from_photo = #{fromPhoto,jdbcType=VARCHAR},
+      from_remark = #{fromRemark,jdbcType=VARCHAR},
+      is_read = #{isRead,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

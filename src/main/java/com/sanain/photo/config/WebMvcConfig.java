@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
+import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         list.add("/email/sendRegisterCode");
         list.add("/email/hasSameEmail");
         list.add("/upload/headPortraitUpload");
+        list.add("/photo/chat");
 
 //        registry.addInterceptor(getFilterConfig()).addPathPatterns("/**");
         //excludePathPatterns 排查那些路径不被拦截
@@ -74,4 +77,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/**").addResourceLocations(ConstantUtil.FILE_IMAGES);
         registry.addResourceHandler("/dirImg/**").addResourceLocations(ConstantUtil.FILE_DIR_IMG);
     }
+
+
 }

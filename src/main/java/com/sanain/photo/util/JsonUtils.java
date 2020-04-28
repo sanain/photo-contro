@@ -1,5 +1,6 @@
 package com.sanain.photo.util;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
@@ -7,7 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sanain.photo.pojo.PtUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author slearing
@@ -15,11 +18,12 @@ import java.util.List;
 public class JsonUtils {
     /**
      * 对象装成json
+     *
      * @param t
      * @param <T>
      * @return
      */
-    public static <T>String toJson(T t){
+    public static <T> String toJson(T t) {
         String str = "";
 
         try {
@@ -33,14 +37,15 @@ public class JsonUtils {
 
     /**
      * json转成对象
+     *
      * @param
      * @param <T>
      * @return
      */
-    public static <T>T toObject(String str , Class<T> clazz){
+    public static <T> T toObject(String str, Class<T> clazz) {
         T t = null;
         try {
-            t = new ObjectMapper().readValue(str , clazz);
+            t = new ObjectMapper().readValue(str, clazz);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -50,12 +55,13 @@ public class JsonUtils {
 
     /**
      * json转成list
+     *
      * @param str
      * @param
      * @param <T>
      * @return
      */
-    public static <T>List<T> jsonToList(String str , Class<T> t){
+    public static <T> List<T> jsonToList(String str, Class<T> t) {
         ObjectMapper mapper = new ObjectMapper();
         List<T> list = new ArrayList<>();
         try {
@@ -70,10 +76,11 @@ public class JsonUtils {
 
     /**
      * list转成json
+     *
      * @param list
      * @return
      */
-    public static <T>String listToJson(List<T> list){
+    public static <T> String listToJson(List<T> list) {
         String str = "";
 
         try {
@@ -84,4 +91,5 @@ public class JsonUtils {
 
         return str;
     }
+    
 }
