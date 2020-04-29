@@ -36,10 +36,19 @@ public class PtFriendController {
     @ResponseBody
     @GetMapping("/getAllFriend")
     public Map<String,Object> getAllFriend(HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+
         /*获取当前用户*/
         String token = TokenUtils.getInstance().getToken(request);
         Object o = redisUtil.get(token);
         PtUser user = JsonUtils.toObject(o.toString(), PtUser.class);
+
+        o = redisUtil.get(ConstantUtil.ALL_FRIEND + user.getUserId());
+//        说明redis中有该好友的好友列表，就不要再查询数据库
+        if(o != null){
+            map.put("allFriend",JsonUtils.jsonToList(o.toString(),PtFriend.class));
+            return ResponseUtils.packaging("00","查询成功",map);
+        }
 
         //从数据库中查询
         List<PtFriend> ptFriends = ptFriendService.getAllBySelfId(user.getUserId());
@@ -50,14 +59,14 @@ public class PtFriendController {
                 ptFriend.setFriendPhoto(ConstantUtil.PRO_PATH+ConstantUtil.PATH_HEAD_PORTRAIT+ptFriend.getFriendPhoto());
             }
         }
-        Map<String,Object> map = new HashMap<>();
+
         map.put("allFriend",ptFriends);
 
         return ResponseUtils.packaging("00","查询成功",map);
     }
 
     /**
-     * 获取当前用户的所有好友
+     * 获取当前用户的指定好友信息
      * @param request
      * @return
      */

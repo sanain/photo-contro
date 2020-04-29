@@ -3,6 +3,8 @@ package com.sanain.photo.service;
 import com.sanain.photo.mapper.PtFriendMapper;
 import com.sanain.photo.mapper.PtUserMapper;
 import com.sanain.photo.pojo.*;
+import com.sanain.photo.util.ConstantUtil;
+import com.sanain.photo.util.JsonUtils;
 import com.sanain.photo.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,10 @@ public class PtFriendService {
      */
     @Transactional
     public Map<String,Object> insert(PtFriendApply apply){
+        // 从redis中移除好友双方的好友列表
+        redisUtil.del(ConstantUtil.ALL_FRIEND + apply.getToId());
+        redisUtil.del(ConstantUtil.ALL_FRIEND + apply.getFromId());
+
         Map<String,Object> map = new HashMap<>();
 
         /*查询他们是否已经是朋友*/
@@ -76,7 +82,7 @@ public class PtFriendService {
 
 
     /**
-     * 根据用户id获取所有的好友列表
+     * 根据用户id和好友id查询
      * @param userId
      * @return
      */
@@ -101,7 +107,10 @@ public class PtFriendService {
         PtFriendExample.Criteria criteria = example.createCriteria();
         criteria.andSelfIdEqualTo(userId);
 
-        return mapper.selectByExample(example);
+        List<PtFriend> ptFriends = mapper.selectByExample(example);
+        // 查询到的好友列表放入redis中
+        redisUtil.set(ConstantUtil.ALL_FRIEND + userId, JsonUtils.toJson(ptFriends));
+        return ptFriends;
     }
 
     /**
@@ -123,7 +132,11 @@ public class PtFriendService {
      * @param
      */
     @Transactional
-    public void deleteFriend(Integer fromId , Integer toId){
+    public void deleteFriend(Integer fromId , Integer toId ){
+        // 从redis中移除好友双方的好友列表
+        redisUtil.del(ConstantUtil.ALL_FRIEND + toId);
+        redisUtil.del(ConstantUtil.ALL_FRIEND + fromId);
+
         //删除以fromId为主的记录
         PtFriendExample example = new PtFriendExample();
         PtFriendExample.Criteria criteria1 = example.createCriteria();

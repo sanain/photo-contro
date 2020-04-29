@@ -10,8 +10,6 @@ import java.util.Date;
  * 好友关系的pojo
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class PtFriend {
     /**关系id**/
     private Integer id;

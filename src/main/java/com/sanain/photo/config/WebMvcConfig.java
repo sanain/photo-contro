@@ -76,6 +76,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/headPortrait/**").addResourceLocations( ConstantUtil.FILE_HEAD_PORTRAIT);
         registry.addResourceHandler("/images/**").addResourceLocations(ConstantUtil.FILE_IMAGES);
         registry.addResourceHandler("/dirImg/**").addResourceLocations(ConstantUtil.FILE_DIR_IMG);
+        registry.addResourceHandler("/dynamicImg/**").addResourceLocations(ConstantUtil.FILE_DYNAMIC_IMG);
     }
 
 

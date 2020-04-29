@@ -41,4 +41,14 @@ public class ConstantUtil {
     public static final String DEFAULT_IMG="default.png";
     /*所有在线用户存储在redis中的key*/
     public static final String ALL_INLINE_USER = "allInLineUser";
+
+    /*动态保存的路径*/
+    public static final String DYNAMIC_IMG= "E:/photo/dynamic_img/";
+    /*动态的路径*/
+    public static final String PATH_DYNAMIC_IMG= "/dynamicImg/";
+    /*动态虚拟路径映射中的本地路径*/
+    public static final String FILE_DYNAMIC_IMG= "file:E:/photo/dynamic_img/";
+
+    /*用户好友列表存在redis中的key，所有的key为 all_friend_用户id*/
+    public static final String ALL_FRIEND= "all_friend_";
 }
