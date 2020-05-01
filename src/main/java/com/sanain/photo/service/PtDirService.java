@@ -130,6 +130,21 @@ public class PtDirService {
     }
 
     /**
+     * 根据分类id查询
+     * @param typeId
+     * @return
+     */
+    public List<PtDir> selectByTypeId(Integer typeId){
+        if( typeId == null){
+            return null;
+        }
+
+        PtDirExample example = new PtDirExample();
+        PtDirExample.Criteria criteria = example.createCriteria();
+        criteria.andDirTypeIdEqualTo(typeId);
+        return ptDirMapper.selectByExample(example);
+    }
+    /**
      * 根据条件查询
      * @param dir
      * @return

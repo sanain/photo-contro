@@ -53,8 +53,11 @@
         <!--<table schema="" tableName="pt_friend"></table>-->
         <!--<table schema="" tableName="pt_friend_apply"></table>-->
         <!--<table schema="" tableName="pt_unread_message"></table>-->
-        <table schema="" tableName="pt_user_dynamic"></table>
+        <!--<table schema="" tableName="pt_user_dynamic"></table>-->
         <!--<table schema="" tableName="pt_user_dynamic_comment"></table>-->
+        <!--<table schema="" tableName="pt_role"></table>-->
+        <table schema="" tableName="pt_announ"></table>
+        <table schema="" tableName="pt_announ_history"></table>
 
     </context>
 </generatorConfiguration>

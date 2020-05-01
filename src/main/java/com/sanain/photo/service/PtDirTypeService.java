@@ -1,9 +1,9 @@
 package com.sanain.photo.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sanain.photo.mapper.PtDirTypeMapper;
-import com.sanain.photo.pojo.PtDir;
-import com.sanain.photo.pojo.PtDirType;
-import com.sanain.photo.pojo.PtDirTypeExample;
+import com.sanain.photo.pojo.*;
 import com.sanain.photo.util.ConstantUtil;
 import com.sanain.photo.util.JsonUtils;
 import com.sanain.photo.util.RedisUtil;
@@ -15,7 +15,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文件夹分类的service
@@ -25,6 +27,8 @@ import java.util.List;
 public class PtDirTypeService {
     @Autowired
     private PtDirTypeMapper ptDirTypeMapper;
+    @Autowired
+    private PtDirService ptDirService;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -47,6 +51,8 @@ public class PtDirTypeService {
         }
 
         PtDirTypeExample example = new PtDirTypeExample();
+        example.setOrderByClause("weight");
+        example.setDistinct(true);
         PtDirTypeExample.Criteria criteria = example.createCriteria();
         criteria.andTypeNameEqualTo(type.getTypeName());
 
@@ -83,18 +89,29 @@ public class PtDirTypeService {
      * @return
      */
     @Transactional
-    public boolean deleteType(Integer typeId){
+    public Map<String,Object> deleteType(Integer typeId){
+        Map<String,Object> map = new HashMap<>();
         if(typeId == null){
-            return false;
+            map.put("result",false);
+            map.put("msg","id不能为空!");
+            return map;
         }
 
+        List<PtDir> ptDirs = ptDirService.selectByTypeId(typeId);
+        if(ptDirs != null && ptDirs.size()>0){
+            map.put("result",false);
+            map.put("msg","有相册在使用不能删除该分类!");
+            return map;
+        }
         //删除分类的缓存
         redisUtil.del(ConstantUtil.ALL_DIR_TYPE);
         int i = ptDirTypeMapper.deleteByPrimaryKey(typeId);
         //删除分类的缓存
         redisUtil.del(ConstantUtil.ALL_DIR_TYPE);
 
-        return i == 0 ? false : true;
+        map.put("result",i>0);
+        map.put("msg",i>0?"删除成功":"删除失败");
+        return map;
     }
 
     /**
@@ -102,7 +119,6 @@ public class PtDirTypeService {
      * @param
      * @return
      */
-    @Transactional
     public List<PtDirType> selectAllType(){
         Object o = redisUtil.get(ConstantUtil.ALL_DIR_TYPE);
         if(o != null){//缓存中存在，就先从缓存中拿
@@ -117,7 +133,31 @@ public class PtDirTypeService {
         return ptDirTypes;
     }
 
+    /**
+     * 分页条件查询
+     * @param ptDirType
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public PageInfo<PtDirType> getListByExample(PtDirType ptDirType,Integer pageNum,Integer pageSize){
+        PtDirTypeExample example = new PtDirTypeExample();
+        example.setOrderByClause("weight");
+        example.setDistinct(true);
+        PtDirTypeExample.Criteria criteria = example.createCriteria();
 
+        /*分类名称不为空根据分类名称查询*/
+        if(!StringUtils.isEmpty(ptDirType.getTypeName())){
+            criteria.andTypeNameLike("%"+ptDirType.getTypeName()+"%");
+        }
+
+        PageHelper.startPage(pageNum,pageSize);
+        List<PtDirType> types = ptDirTypeMapper.selectByExample(example);
+
+        PageInfo<PtDirType> pageInfo = new PageInfo<>(types);
+
+        return pageInfo;
+    }
     /**
      * 根据主键查询
      * @param typeId

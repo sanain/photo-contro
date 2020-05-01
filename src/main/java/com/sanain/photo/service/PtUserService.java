@@ -1,5 +1,7 @@
 package com.sanain.photo.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sanain.photo.mapper.PtUserMapper;
 import com.sanain.photo.pojo.PtUser;
 import com.sanain.photo.pojo.PtUserExample;
@@ -42,6 +44,7 @@ public class PtUserService {
         PtUserExample.Criteria criteria= example.createCriteria();
         //设置查询条件为 user_email 等于ptUser.getUserEmail()
         //也就用户名相等
+        // where user_email='ptUser.getUserEmail()' and user_password='md5'
         criteria.andUserEmailEqualTo(ptUser.getUserEmail());
 
         //设置查询条件为 user_password 等于md5
@@ -117,7 +120,7 @@ public class PtUserService {
             return null;
         }
 
-        ptUser = ptUserMapper.selectByPrimaryKey(ptUser.getUserId());
+        ptUser = ptUserMapper.selectUnionByPrimaryKey(ptUser.getUserId());
         return ptUser;
     }
 
@@ -210,4 +213,40 @@ public class PtUserService {
     }
 
 
+    /**
+     * 根据条件分页查询查询
+     * @param
+     * @return  false 不存在 true已经存在
+     */
+    public PageInfo<PtUser> getListByExample(PtUser ptUser , PtUser currentUser , Integer pageNum , Integer pageSize){
+
+        PtUserExample example = new PtUserExample();
+        example.setOrderByClause("create_time");
+        example.setDistinct(true);
+        PtUserExample.Criteria criteria = example.createCriteria();
+
+        /*邮箱不为空根据邮箱查询*/
+        if(!StringUtils.isEmpty(ptUser.getUserEmail())){
+            criteria.andUserEmailLike("%"+ptUser.getUserEmail()+"%woq zuofan");
+        }
+
+        /*用户名不为空根据邮箱查询*/
+        if(!StringUtils.isEmpty(ptUser.getUserName())){
+            criteria.andUserNameLike("%"+ptUser.getUserName()+"%");
+        }
+
+//        不查询自己
+        criteria.andUserIdNotEqualTo(currentUser.getUserId());
+
+        PageHelper.startPage(pageNum,pageSize);
+        List<PtUser> ptUsers = ptUserMapper.selectUnionByExample(example);
+        if(!CollectionUtils.isEmpty(ptUsers)){
+            for(PtUser u : ptUsers){
+                u.setIsUseStr(u.getIsUse() == 0 ? "启用":"禁用");
+            }
+        }
+        PageInfo<PtUser> pageInfo = new PageInfo<>(ptUsers);
+
+        return pageInfo;
+    }
 }

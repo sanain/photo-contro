@@ -37,8 +37,13 @@ public class PtUser {
     private String userPhone;
     /*是否禁用 0 未禁用 1已禁用*/
     private Integer isUse;
+    /*是否禁用的字符串 不写入数据库*/
+    private String isUseStr;
     /*禁用的理由*/
     private String disableReason;
     /*创建的时间*/
     private Date createTime;
+
+    /*不插入数据库，用户角色对象*/
+    private PtRole ptRole;
 }

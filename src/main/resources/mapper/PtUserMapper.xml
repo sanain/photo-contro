@@ -17,6 +17,30 @@
     <result column="disable_reason" jdbcType="VARCHAR" property="disableReason" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+
+  <resultMap id="unionResultMap" type="com.sanain.photo.pojo.PtUser">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="photo_path" jdbcType="VARCHAR" property="photoPath" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="is_use" jdbcType="INTEGER" property="isUse" />
+    <result column="disable_reason" jdbcType="VARCHAR" property="disableReason" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <association property="ptRole" javaType="com.sanain.photo.pojo.PtRole">
+      <id column="role_id" jdbcType="INTEGER" property="roleId" />
+      <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+      <result column="role_is_use" jdbcType="INTEGER" property="roleIsUse" />
+      <result column="role_create_time" jdbcType="TIMESTAMP" property="roleCreateTime" />
+    </association>
+  </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -93,6 +117,27 @@
       order by ${orderByClause}
     </if>
   </select>
+
+
+  <select id="selectUnionByExample" parameterType="com.sanain.photo.pojo.PtUserExample" resultMap="unionResultMap">
+    select
+    u.*,r.*
+    from pt_user u left join pt_role r on u.role = r.role_id
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectUnionByPrimaryKey"  resultMap="unionResultMap">
+    select
+    u.*,r.*
+    from pt_user u left join pt_role r on u.role = r.role_id where u.user_id=#{id}
+
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

@@ -149,4 +149,30 @@ public class PtUserDynamicService {
 
         return ptUserDynamicMapper.selectByPrimaryKey(id);
     }
+
+    /**
+     * 分页查询所有人的动态
+     * @param
+     * @return
+     */
+    public PageInfo<PtUserDynamic> getListByExample(String userName ,String createTime, Integer pageNum , Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<PtUserDynamic> ptUserDynamics = ptUserDynamicMapper.selectAllDynamic(userName,createTime);
+
+        for(PtUserDynamic dynamic : ptUserDynamics){
+            List<String> list = new ArrayList<>();
+            //把动态的照片路径拼凑出来
+            if(!StringUtils.isEmpty(dynamic.getPhotoPaths())){
+                for(String str : dynamic.getPhotoPaths().split(";")){
+                    if(StringUtils.isEmpty(str)){
+                        continue;
+                    }
+                    list.add(ConstantUtil.PRO_PATH+ConstantUtil.PATH_DYNAMIC_IMG+str);
+                }
+                dynamic.setPhotoList(list);
+            }
+        }
+
+        return new PageInfo<>(ptUserDynamics);
+    }
 }

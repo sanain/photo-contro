@@ -13,6 +13,8 @@ public class ConstantUtil {
     public static final String  UPDATE_USER_INFO_EMAIL_CODE="update_user_info_email_code_";
     /*token放入cookie 的key*/
     public static final String COOKIE_TOKEN="cookie_token";
+    /*角色入cookie 的key*/
+    public static final String COOKIE_ROLE_ID="cookie_role_id";
     /*用户头像保存的路径*/
     public static final String HEAD_PORTRAIT= "E:/photo/head_portrait/";
     /*用户上传图片的路径*/
@@ -51,4 +53,7 @@ public class ConstantUtil {
 
     /*用户好友列表存在redis中的key，所有的key为 all_friend_用户id*/
     public static final String ALL_FRIEND= "all_friend_";
+
+    /*最新的十条广告*/
+    public static final String LASTER_ANNOUN = "laster_announ";
 }

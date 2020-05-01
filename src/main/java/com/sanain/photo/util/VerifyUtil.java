@@ -67,7 +67,7 @@ public class VerifyUtil {
         }
         g.dispose();
         try {
-            // 将内存中的图片通过流动形式输出到客户端
+            // 将内存中的图片通过流形式输出到客户端
             ImageIO.write(image, "JPEG", response.getOutputStream());
         } catch (Exception e) {
         }

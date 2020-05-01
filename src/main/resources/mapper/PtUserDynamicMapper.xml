@@ -12,13 +12,13 @@
   </resultMap>
 
   <resultMap id="resultMap" type="com.sanain.photo.pojo.PtUserDynamic">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="photo_paths" jdbcType="VARCHAR" property="photoPaths" />
-    <result column="star_count" jdbcType="INTEGER" property="starCount" />
-    <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="d_id" jdbcType="INTEGER" property="id" />
+    <result column="d_content" jdbcType="VARCHAR" property="content" />
+    <result column="d_photo_paths" jdbcType="VARCHAR" property="photoPaths" />
+    <result column="d_star_count" jdbcType="INTEGER" property="starCount" />
+    <result column="d_comment_count" jdbcType="INTEGER" property="commentCount" />
+    <result column="d_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="d_user_id" jdbcType="INTEGER" property="userId" />
     <association javaType="com.sanain.photo.pojo.PtUser" property="user">
       <id column="user_id" jdbcType="INTEGER" property="userId" />
       <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
@@ -38,7 +38,9 @@
   </resultMap>
 
   <select id="selectAllFriendDynamic" parameterType="java.util.List" resultMap="resultMap">
-    SELECT d.*,u.* from  pt_user_dynamic d left JOIN  pt_user u on d.user_id = u.user_id
+    SELECT d.id as d_id , d.content as d_content , d.photo_paths as d_photo_paths, d.star_count as d_star_count,
+    d.comment_count as d_comment_count,d.create_time as d_create_time,d.user_id as d_user_id
+    ,u.* from  pt_user_dynamic d left JOIN  pt_user u on d.user_id = u.user_id
     <where>
       d.user_id in(
       <foreach collection="list" item="element" separator=",">
@@ -46,6 +48,22 @@
       </foreach>
       )
     </where>
+    order by d.create_time desc
+  </select>
+
+  <select id="selectAllDynamic"  resultMap="resultMap">
+     SELECT d.id as d_id , d.content as d_content , d.photo_paths as d_photo_paths, d.star_count as d_star_count,
+      d.comment_count as d_comment_count,d.create_time as d_create_time,d.user_id as d_user_id
+      ,u.* from  pt_user_dynamic d left JOIN  pt_user u on d.user_id = u.user_id
+    <where>
+      <if test="userName != null">
+        u.user_name like concat('%',#{userName},'%')
+      </if>
+      <if test="createTime != null">
+        and d.create_time like concat('%',#{createTime},'%')
+      </if>
+    </where>
+    order by d.create_time desc
   </select>
 
   <sql id="Example_Where_Clause">

@@ -30,4 +30,8 @@ public interface PtUserMapper {
     int updateByPrimaryKeySelective(PtUser record);
 
     int updateByPrimaryKey(PtUser record);
+
+    List<PtUser> selectUnionByExample(PtUserExample example);
+
+    PtUser selectUnionByPrimaryKey(Integer id);
 }

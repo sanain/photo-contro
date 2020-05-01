@@ -1,6 +1,8 @@
 package com.sanain.photo.config;
 
+import com.sanain.photo.pojo.PtUser;
 import com.sanain.photo.util.ConstantUtil;
+import com.sanain.photo.util.JsonUtils;
 import com.sanain.photo.util.RedisUtil;
 import com.sanain.photo.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,22 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        PtUser ptUser = JsonUtils.toObject(o.toString(),PtUser.class);
+        //判断是否有跨越权限的请求
+        if(request.getRequestURL().indexOf("management") >=0 ){
+            // 普通用户请求管理员页面
+            if("1".equals(ptUser.getRole())){
+                response.setStatus(402);
+                return false;
+            }
+        }
+//        else{
+//            // 管理员请求用户页面
+//            if("2".equals(ptUser.getRole())){
+//                response.setStatus(401);
+//                return false;
+//            }
+//        }
         return true;
     }
 }

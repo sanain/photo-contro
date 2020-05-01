@@ -34,4 +34,7 @@ public interface PtUserDynamicMapper {
     int updateByPrimaryKey(PtUserDynamic record);
 
     List<PtUserDynamic> selectAllFriendDynamic(List<PtFriend> list);
+
+    List<PtUserDynamic> selectAllDynamic(@Param("userName")String userName , @Param("createTime")String createTime);
+
 }

@@ -78,7 +78,7 @@ public class PtUserController {
 
     @RequestMapping("/getLoginCode")
     @ResponseBody
-    public String getSysManageLoginCode(HttpServletResponse response,
+    public String getLoginCode(HttpServletResponse response,
                                         HttpServletRequest request) {
         String sessionId = request.getSession().getId();
         response.setContentType("image/jpeg");// 设置相应类型,告诉浏览器输出的内容为图片
@@ -129,6 +129,7 @@ public class PtUserController {
             return ResponseUtils.packaging("01","验证码错误！",null);
         }
         //调用service层插入数据
+        ptUser.setRole("1");
         PtUser user = ptUserService.insertUser(ptUser);
 
         //获取token、并放入cookie、redis
@@ -158,6 +159,10 @@ public class PtUserController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
+        //把角色id放在cookie里面
+        Cookie cookie2 = new Cookie(ConstantUtil.COOKIE_ROLE_ID, ptUser.getRole());
+        cookie2.setPath("/");
+        response.addCookie(cookie2);
         return token;
     }
 
