@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanain.photo.mapper.PtUserAlbumMapper">
+  <resultMap id="BaseResultMap" type="com.sanain.photo.pojo.PtUserAlbum">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="cover_paths" jdbcType="VARCHAR" property="coverPaths" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="temp_id" jdbcType="INTEGER" property="tempId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="album_remark" jdbcType="VARCHAR" property="albumRemark" />
+  </resultMap>
+
+  <resultMap id="unionResultMap" type="com.sanain.photo.pojo.PtUserAlbum">
+    <id column="a_id" jdbcType="INTEGER" property="id" />
+    <result column="a_name" jdbcType="VARCHAR" property="name" />
+    <result column="a_cover_paths" jdbcType="VARCHAR" property="coverPaths" />
+    <result column="a_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="a_temp_id" jdbcType="INTEGER" property="tempId" />
+    <result column="a_user_id" jdbcType="INTEGER" property="userId" />
+    <result column="a_album_remark" jdbcType="VARCHAR" property="albumRemark" />
+
+    <association property="ptUser" javaType="com.sanain.photo.pojo.PtUser">
+      <id column="user_id" jdbcType="INTEGER" property="userId" />
+      <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+      <result column="user_name" jdbcType="VARCHAR" property="userName" />
+      <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+      <result column="photo_path" jdbcType="VARCHAR" property="photoPath" />
+      <result column="role" jdbcType="VARCHAR" property="role" />
+      <result column="signature" jdbcType="VARCHAR" property="signature" />
+      <result column="province" jdbcType="VARCHAR" property="province" />
+      <result column="city" jdbcType="VARCHAR" property="city" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+      <result column="is_use" jdbcType="INTEGER" property="isUse" />
+      <result column="disable_reason" jdbcType="VARCHAR" property="disableReason" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </association>
+
+    <collection property="files" javaType="com.sanain.photo.pojo.PtUserAlbumFile" >
+      <id column="f_file_id" jdbcType="INTEGER" property="fileId" />
+      <result column="f_file_path" jdbcType="VARCHAR" property="filePath" />
+      <result column="f_create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="f_user_album_id" jdbcType="INTEGER" property="userAlbumId" />
+    </collection>
+
+  </resultMap>
+
+  <resultMap id="unionResultMap2" type="com.sanain.photo.pojo.PtUserAlbum">
+    <id column="a_id" jdbcType="INTEGER" property="id" />
+    <result column="a_name" jdbcType="VARCHAR" property="name" />
+    <result column="a_cover_paths" jdbcType="VARCHAR" property="coverPaths" />
+    <result column="a_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="a_temp_id" jdbcType="INTEGER" property="tempId" />
+    <result column="a_user_id" jdbcType="INTEGER" property="userId" />
+    <result column="a_album_remark" jdbcType="VARCHAR" property="albumRemark" />
+
+    <association property="temp" javaType="com.sanain.photo.pojo.PtAlbumTemp">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="cover_paths" jdbcType="VARCHAR" property="coverPaths" />
+      <result column="photo_paths" jdbcType="VARCHAR" property="photoPaths" />
+      <result column="js_paths" jdbcType="VARCHAR" property="jsPaths" />
+      <result column="css_paths" jdbcType="VARCHAR" property="cssPaths" />
+      <result column="html_str" jdbcType="VARCHAR" property="htmlStr" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="photo_count" jdbcType="INTEGER" property="photoCount" />
+      <result column="temp_remark" jdbcType="VARCHAR" property="tempRemark" />
+    </association>
+
+    <collection property="files" ofType="com.sanain.photo.pojo.PtUserAlbumFile" >
+      <id column="f_file_id" jdbcType="INTEGER" property="fileId" />
+      <result column="f_file_path" jdbcType="VARCHAR" property="filePath" />
+      <result column="f_create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="f_user_album_id" jdbcType="INTEGER" property="userAlbumId" />
+    </collection>
+
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, cover_paths, create_time, temp_id, user_id, album_remark
+  </sql>
+  <select id="selectByExample" parameterType="com.sanain.photo.pojo.PtUserAlbumExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pt_user_album
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pt_user_album
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pt_user_album
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sanain.photo.pojo.PtUserAlbumExample">
+    delete from pt_user_album
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sanain.photo.pojo.PtUserAlbum">
+    insert into pt_user_album (id, name, cover_paths, 
+      create_time, temp_id, user_id, 
+      album_remark)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{coverPaths,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{tempId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{albumRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true"  keyProperty="id" keyColumn="id" parameterType="com.sanain.photo.pojo.PtUserAlbum">
+    insert into pt_user_album
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="coverPaths != null">
+        cover_paths,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="tempId != null">
+        temp_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="albumRemark != null">
+        album_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="coverPaths != null">
+        #{coverPaths,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tempId != null">
+        #{tempId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="albumRemark != null">
+        #{albumRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sanain.photo.pojo.PtUserAlbumExample" resultType="java.lang.Long">
+    select count(*) from pt_user_album
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pt_user_album
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coverPaths != null">
+        cover_paths = #{record.coverPaths,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tempId != null">
+        temp_id = #{record.tempId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.albumRemark != null">
+        album_remark = #{record.albumRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pt_user_album
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      cover_paths = #{record.coverPaths,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      temp_id = #{record.tempId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      album_remark = #{record.albumRemark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sanain.photo.pojo.PtUserAlbum">
+    update pt_user_album
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="coverPaths != null">
+        cover_paths = #{coverPaths,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tempId != null">
+        temp_id = #{tempId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="albumRemark != null">
+        album_remark = #{albumRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sanain.photo.pojo.PtUserAlbum">
+    update pt_user_album
+    set name = #{name,jdbcType=VARCHAR},
+      cover_paths = #{coverPaths,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      temp_id = #{tempId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      album_remark = #{albumRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectUnionByPrimaryKey"  resultMap="unionResultMap2">
+    	select a.id as a_id , a.name as a_name ,a.cover_paths as a_cover_paths,a.create_time as a_create_time,a.temp_id as a_temp_id,
+		a.user_id as a_user_id,a.album_remark as a_album_remark, f.file_id as f_file_id,f.file_path as f_file_path,f.create_time as f_create_time
+		,f.user_album_id as f_user_album_id,t.* from   pt_user_album a left join pt_album_temp t on a.temp_id = t.id left join pt_user_album_file f on a.id=f.user_album_id
+		 where a.id=#{id}
+  </select>
+</mapper>

@@ -287,14 +287,14 @@ public class PtUserController {
 
         return ResponseUtils.packaging("00","退出登录成功!",map);
     }
-    @ResponseBody
-    @RequestMapping("testCookie")
-    public String testCookie(HttpServletResponse response){
-        int i = new Random().nextInt(10);
-        Cookie cookie = new Cookie("1",i+"");
-        response.addCookie(cookie);
 
-        return "";
+    @ResponseBody
+    @RequestMapping("test")
+    public Map<String,Object> testCookie(HttpServletResponse response){
+        Map<String,Object> map = new HashMap<>();
+        map.put("xx","yy");
+
+        return ResponseUtils.packaging("00","ooo",map);
     }
 
 

@@ -51,9 +51,21 @@ public class ConstantUtil {
     /*动态虚拟路径映射中的本地路径*/
     public static final String FILE_DYNAMIC_IMG= "file:E:/photo/dynamic_img/";
 
+    /*动态相册模板保存的路径*/
+    public static final String TEMP_IMG= "E:/photo/temp_img/";
+    /*动态相册模板的路径*/
+    public static final String PATH_TEMP_IMG= "/tempImg/";
+    /*动态相册模板虚拟路径映射中的本地路径*/
+    public static final String FILE_TEMP_IMG= "file:E:/photo/temp_img/";
+
+
     /*用户好友列表存在redis中的key，所有的key为 all_friend_用户id*/
     public static final String ALL_FRIEND= "all_friend_";
 
     /*最新的十条广告*/
     public static final String LASTER_ANNOUN = "laster_announ";
+
+    /*所有动态相册模板存在redis中的key*/
+    public static final String ALL_TEMP = "all_temp";
+
 }

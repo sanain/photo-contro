@@ -1,6 +1,7 @@
 package com.sanain.photo.util;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -210,4 +211,25 @@ public class FileUtils {
         System.out.println("success");
     }
 
+    /**
+     * 删除多个文件
+     * @param fileNames 多个文件名
+     * @param delimiter 文件名之间的分隔符
+     * @param path  文件所在的路径
+     * @return
+     */
+    public static void deleteFiles(String fileNames , String delimiter , String path){
+        if(StringUtils.isEmpty(fileNames)){
+            return;
+        }
+
+        String[] nameArr = fileNames.split(delimiter);
+
+        for(String name :  nameArr){
+            File f = new File(path+name);
+            if(f.exists()){
+                f.delete();
+            }
+        }
+    }
 }

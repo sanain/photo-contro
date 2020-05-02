@@ -56,8 +56,10 @@
         <!--<table schema="" tableName="pt_user_dynamic"></table>-->
         <!--<table schema="" tableName="pt_user_dynamic_comment"></table>-->
         <!--<table schema="" tableName="pt_role"></table>-->
-        <table schema="" tableName="pt_announ"></table>
-        <table schema="" tableName="pt_announ_history"></table>
+        <!--<table schema="" tableName="pt_announ"></table>-->
+        <!--<table schema="" tableName="pt_album_temp"></table>-->
+        <!--<table schema="" tableName="pt_user_album"></table>-->
+        <table schema="" tableName="pt_user_album_file"></table>
 
     </context>
 </generatorConfiguration>
