@@ -108,8 +108,7 @@ public class PtFriendService {
         criteria.andSelfIdEqualTo(userId);
 
         List<PtFriend> ptFriends = mapper.selectByExample(example);
-        // 查询到的好友列表放入redis中
-        redisUtil.set(ConstantUtil.ALL_FRIEND + userId, JsonUtils.toJson(ptFriends));
+
         return ptFriends;
     }
 

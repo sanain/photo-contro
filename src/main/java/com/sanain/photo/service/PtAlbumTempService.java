@@ -50,7 +50,8 @@ public class PtAlbumTempService {
         PtAlbumTempExample.Criteria criteria = example.createCriteria();
 
         if(!StringUtils.isEmpty(temp.getName())){
-            criteria.andNameEqualTo(temp.getName());
+            criteria.andNameLike("%"+temp.getName()+"%");
+
         }
 
         List<PtAlbumTemp> list = ptAlbumTempMapper.selectByExample(example);

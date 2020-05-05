@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ *好友controller
  * @Author sanain
  */
 @Controller
@@ -59,6 +59,9 @@ public class PtFriendController {
                 ptFriend.setFriendPhoto(ConstantUtil.PRO_PATH+ConstantUtil.PATH_HEAD_PORTRAIT+ptFriend.getFriendPhoto());
             }
         }
+
+        // 查询到的好友列表放入redis中
+        redisUtil.set(ConstantUtil.ALL_FRIEND + user.getUserId(), JsonUtils.toJson(ptFriends));
 
         map.put("allFriend",ptFriends);
 

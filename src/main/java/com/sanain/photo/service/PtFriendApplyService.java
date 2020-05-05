@@ -1,10 +1,7 @@
 package com.sanain.photo.service;
 
 import com.sanain.photo.mapper.PtFriendApplyMapper;
-import com.sanain.photo.pojo.PtFriendApply;
-import com.sanain.photo.pojo.PtFriendApplyExample;
-import com.sanain.photo.pojo.PtUser;
-import com.sanain.photo.pojo.PtUserFileExample;
+import com.sanain.photo.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,6 +83,17 @@ public class PtFriendApplyService {
         List<PtFriendApply> ptFriendApplies1 = ptFriendApplyMapper.selectByExample(example1);
         if(!CollectionUtils.isEmpty(ptFriendApplies1)){
             map.put("msg","已经未处理的好友申请，不能多次申请");
+            map.put("result",false);
+            map.put("applyInfo",null);
+            return map;
+        }
+
+//        检查是否 已经是好友
+        PtFriendExample example = new PtFriendExample();
+        PtFriendExample.Criteria criteria2 = example.createCriteria();
+        PtFriend ptFriend = ptFriendService.getAllBySelfIdAndFriendId(ptUser.getUserId(), apply.getToId());
+        if(ptFriend != null){
+            map.put("msg","该用户已经是你的好友，无需再次添加");
             map.put("result",false);
             map.put("applyInfo",null);
             return map;

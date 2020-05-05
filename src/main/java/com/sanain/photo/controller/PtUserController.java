@@ -61,6 +61,10 @@ public class PtUserController {
             return ResponseUtils.packaging("01","用户名或者密码错误！",null);
         }
 
+        if(user.getIsUse() == 1){
+            return ResponseUtils.packaging("01","用户已经被禁用！",null);
+        }
+
         //生成cookie和放入redis、session
         makeToke(user,request,response);
 
@@ -196,6 +200,7 @@ public class PtUserController {
     @ResponseBody
     @RequestMapping("/getUserAllInfo")
     public Map<String , Object> getAllUserInfo(HttpServletRequest request){
+//        获取当前请求的用户 teken
         TokenUtils tokenUtils = TokenUtils.getInstance();
         String token = tokenUtils.getToken(request);
 

@@ -72,7 +72,6 @@ public class PtUserService {
         }
         ptUser.setIsUse(0);
         ptUser.setPhotoPath("default.png");
-        ptUser.setRole("0");
         ptUser.setUserName(ptUser.getUserEmail());
         ptUser.setSignature("");
         ptUser.setUserPhone("");
