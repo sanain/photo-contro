@@ -99,6 +99,8 @@ public class PtAlbumTempService {
      */
     @Transactional
     public boolean insertTemp(PtAlbumTemp temp){
+        redisUtil.del(ConstantUtil.ALL_TEMP);
+
         temp.setCreateTime(new Date());
         if(!StringUtils.isEmpty(temp.getPhotoPaths())){
             String str = temp.getPhotoPaths().split(";")[0];
@@ -107,6 +109,7 @@ public class PtAlbumTempService {
 
         int i = ptAlbumTempMapper.insertSelective(temp);
 
+        redisUtil.del(ConstantUtil.ALL_TEMP);
         return i > 0 ;
     }
 
@@ -118,6 +121,7 @@ public class PtAlbumTempService {
      */
     @Transactional
     public Map<String,Object> deleteTemp(Integer id){
+        redisUtil.del(ConstantUtil.ALL_TEMP);
         Map<String,Object> map = new HashMap<>();
 
         if(id == null){
@@ -150,6 +154,8 @@ public class PtAlbumTempService {
             FileUtils.deleteFiles(temp.getCssPaths(),";",path);
         }
         int i = ptAlbumTempMapper.deleteByPrimaryKey(id);
+
+        redisUtil.del(ConstantUtil.ALL_TEMP);
 
         boolean result = i > 0 ? true : false;
         String msg = i > 0 ? "删除成功":"删除失败";

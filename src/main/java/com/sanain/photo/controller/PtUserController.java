@@ -61,7 +61,7 @@ public class PtUserController {
             return ResponseUtils.packaging("01","用户名或者密码错误！",null);
         }
 
-        if(user.getIsUse() == 1){
+        if(user.getIsUse() != null && user.getIsUse() == 1){
             return ResponseUtils.packaging("01","用户已经被禁用！",null);
         }
 
